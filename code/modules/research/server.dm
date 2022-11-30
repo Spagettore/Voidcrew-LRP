@@ -2,7 +2,15 @@
 	desc = "A computer system running a deep neural network that processes arbitrary information to produce data useable in the development of new technologies. In layman's terms, it makes research points."
 	icon = 'icons/obj/machines/research.dmi'
 	icon_state = "RD-server-on"
+	circuit = /obj/item/circuitboard/machine/rdserver
 	var/datum/techweb/stored_research
+
+/obj/machinery/rnd/server/Initialize()
+	. = ..()
+	var/obj/item/circuitboard/machine/rdserver/board = circuit
+	name = "\improper [board.server_id] research server"
+	SSresearch.servers |= src
+	stored_research = new(board.server_id)
 
 /obj/machinery/rnd/server/on_construction()
 	var/obj/item/circuitboard/machine/rdserver/board = circuit
