@@ -4,13 +4,17 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	var/rummage_if_nodrop = TRUE
 	var/component_type = /datum/component/storage/concrete
+	var/list/custom_items = null
 
 /obj/item/storage/get_dumping_location(obj/item/storage/source,mob/user)
 	return src
 
 /obj/item/storage/Initialize()
 	. = ..()
-	PopulateContents()
+	if(!custom_items)
+		PopulateContents()
+	else
+		CustomContents()
 
 /obj/item/storage/ComponentInitialize()
 	AddComponent(component_type)
@@ -44,6 +48,12 @@
 //Cyberboss says: "USE THIS TO FILL IT, NOT INITIALIZE OR NEW"
 
 /obj/item/storage/proc/PopulateContents()
+
+/obj/item/storage/proc/CustomContents()
+
+/obj/item/storage/CustomContents()
+	for(var/i in custom_items)
+		new i(src)
 
 /obj/item/storage/proc/emptyStorage()
 	var/datum/component/storage/ST = GetComponent(/datum/component/storage)
